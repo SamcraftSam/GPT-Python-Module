@@ -1,22 +1,28 @@
+#Prompts in Ukrainian but you can change them
+#
+#Author: Alexander Zaratustra (GitHub: SamcraftSam)
+#
+
 import os
 import openai
 
-openai.organization = "org-XIIyobqF9PnNAMy4xNz9jDvk"
-openai.api_key = "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"
+#openai.organization = "" #for organizations
+openai.api_key = "" #YOUR PRIV-KEY
 
-def chat(messags, message):
+#====MAIN FUNCTION====
+def chat(setup, message): #'setup' for prompt with task explaintation, 'message' for material
     #global messages
-    messags.append({"role": "assistant", "content": message})
+    setup.append({"role": "assistant", "content": message}) 
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=messags
+            messages=setup
         )
-        messags.append({"role": "assistant", "content": response["choices"][0]["message"].content})
+        setup.append({"role": "assistant", "content": response["choices"][0]["message"].content})
         return response["choices"][0]["message"]["content"]
     except Exception as e:
         return repr(e)
-    
+
 def publication(msg):
     pset = "Зараз ти будеш писати новину для мого вебсайту на основі наданого повного тексту в наступних повідомленнях. Пам'ятай, що професійні новини складається лише з фактів та коментарів й новини не можуть бути дуже короткими. Коли це можливо, зроби так щоб текст цієї новини краще просувався у пошуковиках системах на запит 'новини міста Чернігова'. Користуйся правилами SEO для написання новини та правильною структурою (використовуючи правило F, також відомим як правило першого абзацу) роблячи текст легким для читання з метою змусити читача прочитати його до кінця. Також, обирай довжину в залежності від цікавості теми читачем та довжини самого тексту. Якщо новина велика та може бути розділена на частини, то вказуй заголовки для цих частин (помічаючи їх як 'H2: <заголовок>'). Готовий писати новину?"
     pset_j = [
